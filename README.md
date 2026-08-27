@@ -217,6 +217,8 @@ HealthConnect-Week4-Data-Science/
 │
 └── .gitignore
 
+---
+
 ## Author
 
 Samuel Makobe
