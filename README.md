@@ -1,18 +1,20 @@
-# HealthConnect Clinic – Appointment Analysis
+# HealthConnect Clinic – Appointment No-Show Analysis
 
 ## Overview
 
-The project focuses on analysing appointment attendance patterns and developing a baseline machine learning approach to better understand and predict patient no-shows.
+This project analyses appointment attendance patterns for **HealthConnect Clinic**, a fictional outpatient healthcare provider, and develops a machine-learning approach for predicting patient no-shows.
 
-The project is being developed progressively across the weekly Experience Lab activities. Week 4 established the project foundation, while Week 5 moved into practical data preparation, exploratory analysis, feature engineering, model development, and initial evaluation.
+The project is being developed progressively through the **AnalystLab Africa Experience Lab**. The work has progressed from business and data understanding to data preparation, exploratory analysis, baseline modelling, error analysis, cross-track integration, feature refinement, model comparison, and validation.
 
-> Project status: Week 5 – Data Science Development and Initial Modelling completed.
+> **Project status: Week 6 – Data Science Development, Model Refinement and Validation completed.**
+
+The project is an educational data science exercise and is **not a production healthcare prediction system**.
 
 ---
 
-## Project Context
+# Project context
 
-HealthConnect is a fictional outpatient healthcare provider experiencing missed patient appointments.
+HealthConnect Clinic is experiencing missed patient appointments.
 
 Missed appointments can affect:
 
@@ -22,17 +24,15 @@ Missed appointments can affect:
 * Operational efficiency
 * Service delivery
 
-The purpose of this project is to use data science techniques to identify patterns associated with missed appointments and establish a baseline predictive modelling approach that can be improved in later stages.
-
-This project is intended as an analytical and learning exercise and is not a production healthcare prediction system.
+The purpose of this project is to investigate patterns associated with missed appointments and determine whether these patterns can support an initial predictive modelling approach.
 
 ---
 
-## Project objective
+# Project objective
 
 The main objective is to investigate:
 
-> Which appointment and patient-related factors are associated with patient no-shows, and can these patterns be used to develop an initial model for identifying appointments with a higher likelihood of being missed?
+> **Which appointment and patient-related factors are associated with patient no-shows, and can these patterns be used to develop a model for identifying appointments with a higher likelihood of being missed?**
 
 The project follows a structured data science workflow:
 
@@ -45,41 +45,43 @@ The project follows a structured data science workflow:
 7. Feature selection
 8. Train/test strategy
 9. Baseline model development
-10. Model evaluation
-11. Interpretation
-12. Identification of limitations
-13. Recommendations for further development
+10. Error analysis
+11. Cross-track integration
+12. Feature refinement
+13. Model comparison
+14. Cross-validation
+15. Model selection
+16. Interpretation
+17. Limitations and recommendations
 
 ---
 
-# Week 4 – Foundation stage
+# Week 4 – Project foundation
 
-Week 4 focused on understanding the problem, reviewing the available dataset, assessing data quality, defining the machine learning problem, and planning the modelling approach.
+Week 4 focused on establishing the foundation of the HealthConnect project.
 
-Week 4 did not include a completed predictive model.
+### Objectives
 
-### Week 4 objectives
-
-The Week 4 work focused on:
+The work included:
 
 * Understanding the HealthConnect business problem
-* Inspecting the available appointment dataset
-* Assessing missing values and data quality
-* Understanding the appointment outcome categories
+* Inspecting the appointment dataset
+* Assessing data quality
+* Understanding appointment outcome categories
 * Identifying potential predictors
-* Defining the target variable
+* Defining the modelling target
 * Considering data leakage risks
-* Determining an initial modelling strategy
-* Documenting assumptions, limitations, and risks
+* Planning the initial modelling strategy
+* Documenting assumptions and limitations
 
 ### Original dataset
 
 The original HealthConnect dataset contained:
 
-* 5,000 appointment records
-* 18 variables
+* **5,000 appointment records**
+* **18 variables**
 
-The original appointment outcomes were:
+### Original appointment outcomes
 
 | Appointment outcome | Records | Percentage |
 | ------------------- | ------: | ---------: |
@@ -87,7 +89,7 @@ The original appointment outcomes were:
 | Attended            |   2,314 |     46.28% |
 | Cancelled           |     263 |      5.26% |
 
-### Missing values identified in Week 4
+### Missing values identified
 
 | Variable              | Missing values |
 | --------------------- | -------------: |
@@ -95,33 +97,36 @@ The original appointment outcomes were:
 | distance_to_clinic_km |             90 |
 | waiting_time_minutes  |             60 |
 
-Week 4 identified appointment_outcome as the initial target concept, with No-Show considered the positive class and Attended the negative class. Cancelled appointments were treated separately rather than as attendance failures.
+Week 4 established the initial prediction problem, with **No-Show** treated as the positive class and **Attended** as the negative class. Cancelled appointments were treated separately.
 
 ---
 
-# Week 5 – Data Science development and initial modelling
+# Week 5 – Data preparation, EDA and baseline modelling
 
-Week 5 moved the project from planning into practical implementation.
+Week 5 moved the project from planning into practical Data Science implementation.
 
-The main focus was preparing the dataset, investigating patterns in the data, engineering useful features, selecting modelling variables, developing a baseline classification model, and evaluating its initial performance.
+The main focus was:
 
----
+* Data preparation
+* Data quality assessment
+* Exploratory data analysis
+* Feature engineering
+* Feature selection
+* Train/test splitting
+* Baseline Logistic Regression
+* Model evaluation
 
-## 1. Data preparation
+## Data preparation
 
-The original dataset was preserved and was not overwritten.
+The original dataset was preserved and a separate processed dataset was created.
 
-A separate processed dataset was created for modelling:
+### Cancelled appointments
 
-HealthConnect_Processed_Dataset.csv
+The 263 cancelled appointments were excluded from the binary attended-versus-no-show modelling task.
 
-### Appointment outcome handling
+This resulted in:
 
-Cancelled appointments were excluded from the modelling dataset because they represent a different outcome from both attendance and no-show behaviour.
-
-After removing the 263 cancelled appointments:
-
-Final modelling dataset: 4,737 records
+> **4,737 modelling records**
 
 The target variable was transformed into:
 
@@ -135,69 +140,68 @@ The following identifiers were excluded from modelling:
 * appointment_id
 * patient_id
 
-These variables were not considered meaningful predictive features.
+### Variables excluded
 
-### Variables excluded from modelling
-
-The following variables were excluded because they could introduce data leakage or were not appropriate predictors available before the appointment outcome:
+The following variables were excluded because they were potentially unavailable at prediction time or could introduce data leakage:
 
 * appointment_outcome
 * waiting_time_minutes
 * reminder_sent
 * reminder_channel
 
-The original date variables were retained for reference but were not directly used as predictors.
+Date variables were retained for reference but were not directly used as predictors.
 
 ### Missing values
 
-Missing distance_to_clinic_km values were handled using the median distance of 8.7 km.
+Missing distance_to_clinic_km values were handled using the median distance of **8.7 km**.
 
-After preprocessing, the prepared modelling dataset contained:
+The prepared modelling dataset contained:
 
-0 missing values
-
----
-
-# 2. Exploratory data analysis
-
-Exploratory analysis was conducted to understand the distribution of the target variable and identify relationships between appointment characteristics and no-show behaviour.
-
-### Target distribution
-
-After excluding cancelled appointments:
-
-* No-Show: 2,423
-* Attended: 2,314
-
-This corresponds to approximately:
-
-* 51.15% No-Show
-* 48.85% Attended
-
-The target variable was therefore relatively balanced, although no-show appointments were slightly more common.
-
-### Key patterns observed
-
-The exploratory analysis indicated several potentially important patterns:
-
-* Longer booking lead times were associated with higher levels of no-show behaviour.
-* Previous no-show history showed a strong relationship with the current appointment outcome.
-* Distance to the clinic appeared to increase the relative no-show rate across distance groups, although some of the furthest groups contained relatively few observations.
-* Numerical correlations between most variables were weak.
-* previous_appointments and previous_no_shows showed a moderate positive relationship of approximately 0.461.
-* Plausible extreme values were retained where they did not appear to represent data entry errors.
-
-These findings informed the feature engineering and feature selection stages.
+> **0 missing values**
 
 ---
 
-# 3. Feature engineering
+# Exploratory data analysis
 
-Two additional categorical features were created to represent appointment characteristics in groups.
+The Week 5 EDA investigated:
+
+* Target distribution
+* Numerical variables
+* Categorical variables
+* Feature-target relationships
+* Correlations
+* Potential outliers
+* Appointment characteristics associated with no-show behaviour
+
+After cancelled appointments were excluded:
+
+| Target   | Records | Percentage |
+| -------- | ------: | ---------: |
+| No-Show  |   2,423 |     51.15% |
+| Attended |   2,314 |     48.85% |
+
+The target was therefore relatively balanced.
+
+### Key Week 5 observations
+
+The analysis indicated:
+
+* Longer booking lead times were associated with higher no-show levels.
+* Previous no-show history showed an important relationship with current no-show behaviour.
+* Distance to the clinic showed a tendency towards higher no-show levels across some distance groups.
+* Most numerical relationships were weak.
+* previous_appointments and previous_no_shows showed a moderate positive correlation of approximately **0.461**.
+* Plausible extreme values were retained rather than automatically removed.
+
+---
+
+# Week 5 feature engineering
+
+Two grouped features were created.
 
 ### Booking lead-time groups
 
-The booking_lead_days variable was grouped into:
+booking_lead_days was grouped into:
 
 * 0–7 days
 * 8–14 days
@@ -207,7 +211,7 @@ The booking_lead_days variable was grouped into:
 
 ### Distance groups
 
-The distance_to_clinic_km variable was grouped into:
+distance_to_clinic_km was grouped into:
 
 * 0–5 km
 * 6–10 km
@@ -221,13 +225,11 @@ The engineered variables were:
 * booking_lead_group
 * distance_group
 
-Validation confirmed that the engineered groups contained no missing values.
-
 ---
 
-# 4. Selected modelling features
+# Week 5 baseline features
 
-The final feature set contained 12 modelling variables:
+The baseline model used 12 predictors:
 
 ```text
 gender
@@ -244,23 +246,23 @@ distance_to_clinic_km
 distance_group
 ```
 
-The selection was based on:
+Feature selection considered:
 
-* Relevance to the prediction problem
-* Availability before the appointment outcome
-* Findings from exploratory analysis
+* Prediction-time availability
+* Exploratory analysis findings
+* Relevance to the no-show problem
 * Avoidance of identifiers
 * Avoidance of potential data leakage
 
 ---
 
-# 5. Train/Test strategy
+# Week 5 train/test strategy
 
-The prepared dataset was divided into training and testing datasets using a stratified 80/20 split.
+A stratified 80/20 train/test split was used.
 
+```text
 random_state = 42
-
-### Dataset sizes
+```
 
 | Dataset      | Records | Features |
 | ------------ | ------: | -------: |
@@ -268,31 +270,21 @@ random_state = 42
 | Training set |   3,789 |       12 |
 | Testing set  |     948 |       12 |
 
-Stratification was used to maintain a similar proportion of No-Show and Attended appointments in both the training and testing datasets.
+Stratification was used to maintain a similar class distribution in the training and testing datasets.
 
 ---
 
-# 6. Baseline model
+# Week 5 baseline model
 
-A Logistic Regression classifier was developed as the Week 5 baseline model.
+A **Logistic Regression** classifier was developed as the baseline model.
 
-The modelling workflow used a preprocessing pipeline containing:
+The modelling pipeline used:
 
 * StandardScaler for numerical variables
 * OneHotEncoder for categorical variables
-* LogisticRegression as the classification model
+* LogisticRegression as the classifier
 
-The categorical encoder was configured to handle previously unseen categories during prediction.
-
-The baseline model provides a starting point against which more advanced models can be compared in later stages.
-
----
-
-# 7. Baseline model evaluation
-
-The baseline Logistic Regression model was evaluated using the test dataset.
-
-### Performance results
+### Baseline performance
 
 | Metric    | Result |
 | --------- | -----: |
@@ -304,132 +296,406 @@ The baseline Logistic Regression model was evaluated using the test dataset.
 
 ### Confusion matrix
 
-The model produced:
-
 |                 | Predicted Attended | Predicted No-Show |
 | --------------- | -----------------: | ----------------: |
 | Actual Attended |                248 |               215 |
 | Actual No-Show  |                151 |               334 |
 
-### Interpretation
+The baseline correctly identified 334 actual no-shows but missed 151 no-show appointments.
 
-The baseline model demonstrates moderate predictive ability, but there is substantial room for improvement.
-
-The model correctly identified 334 of the 485 actual no-show appointments, resulting in a recall of 68.87%.
-
-However, it also incorrectly classified some attended appointments as no-shows. The precision of 60.84% indicates that not every appointment predicted as a no-show was actually missed.
-
-The ROC-AUC score of 0.6642 indicates that the model has some ability to distinguish between attended and no-show appointments, but the separation is still limited.
-
-Therefore, the model should be treated as a baseline for further development rather than a deployment-ready solution.
+The model demonstrated moderate predictive ability and was retained as the reference point for Week 6 improvement.
 
 ---
 
-# 8. Data Science findings
+# Week 6 – Model refinement, error analysis and validation
 
-The Week 5 analysis produced several useful findings:
+Week 6 focused on understanding where the baseline model made errors, integrating findings from the Data Analytics track, refining the feature representation, comparing modelling approaches, and validating the final candidate model.
 
-### Booking lead time
+The Week 6 workflow consisted of:
 
-Appointments booked further in advance showed a tendency towards higher no-show behaviour.
-
-This suggests that the amount of time between booking and appointment date may be useful when assessing appointment attendance risk.
-
-### Previous No-Show history
-
-Previous no-show behaviour showed an important relationship with the current appointment outcome.
-
-This indicates that historical attendance behaviour may provide useful information for future modelling.
-
-### Distance to clinic
-
-No-show rates appeared to increase across some distance groups.
-
-However, the furthest distance group contained relatively few observations, so this finding should be interpreted cautiously.
-
-### Target balance
-
-The modelling target was reasonably balanced after cancelled appointments were removed. Therefore, the baseline model was evaluated using standard classification metrics without relying on extreme class-imbalance assumptions.
+1. Re-establishing the Week 5 baseline
+2. False-positive and false-negative error analysis
+3. Data Analytics → Data Science cross-track integration
+4. Feature refinement
+5. Refined Logistic Regression
+6. Random Forest comparison
+7. Five-fold stratified cross-validation
+8. Final model selection
+9. Documentation of limitations and remaining issues
 
 ---
 
-# 9. Cross-Track collaboration and project dependencies
+# Week 6 error analysis
 
-The Data Science work is connected to the other project tracks, particularly Data Analytics.
+The baseline model produced:
 
-Analytical findings and visual exploration are important inputs into the Data Science workflow because they help identify:
+* **151 false negatives**
+* **215 false positives**
+* **248 true negatives**
+* **334 true positives**
 
-* Relevant variables
-* Potential relationships
-* Patterns requiring further investigation
-* Candidate features for modelling
-* Questions that should be tested statistically or through machine learning
+The error analysis investigated model performance across:
 
-The Week 5 workflow therefore treats Data Analytics outputs as an important project dependency for refining the predictive modelling approach.
+* Booking lead-time groups
+* Previous no-show history
+* Appointment type
+* Age groups
+* Appointment day
+* Appointment time
+* Distance to clinic
 
-No unsupported claims of formal meetings or direct data exchange are made where such interaction has not been documented.
+### Main error-analysis findings
+
+Booking lead time showed the clearest variation in model errors.
+
+The **15–30 day** and **31–45 day** booking groups showed relatively high error rates.
+
+The 15–30 day group contained the largest number of false negatives, while the 31–45 day group contained the largest number of false positives.
+
+Previous no-show history was also important, with errors occurring across different levels of previous no-show behaviour.
+
+Appointment type and distance showed secondary patterns, while appointment day and appointment time showed comparatively modest differences.
+
+These findings were used to guide feature refinement rather than being treated as causal relationships.
 
 ---
 
-# 10. Limitations
+# Week 6 cross-track collaboration
 
-Several limitations were identified during the Week 5 implementation.
+The Data Science track collaborated with the Data Analytics track.
 
-### Dataset limitations
+The Data Analytics findings provided additional evidence about:
 
-The dataset is limited to the variables provided in the HealthConnect dataset.
+* Booking lead time
+* Previous no-shows
+* Distance
+* Appointment type
+* Age
+* Appointment day
+* Appointment time
+* Booking lead time × previous no-show interaction
 
-Additional factors that may influence appointment attendance may not be represented.
+### Key Data Analytics finding
 
-### Baseline model performance
+Booking lead time was identified as one of the strongest individual predictors of no-show behaviour.
 
-The Logistic Regression model achieved only moderate performance.
+Previous no-show history also showed an increasing no-show pattern.
 
-The results indicate that additional modelling approaches and feature development should be investigated.
+The interaction between booking lead time and previous no-show history suggested that these variables may provide useful combined information.
 
-### Distance groups
+Appointment time showed very little variation in no-show rates and was therefore reconsidered during feature refinement.
 
-Some distance categories, particularly the furthest group, contain relatively few observations. Results for these groups should therefore be interpreted cautiously.
+---
 
-### Feature availability
+# Week 6 feature refinement
 
-Variables that may have strong relationships with appointment outcomes were excluded when they were considered unsuitable for prediction because they could introduce leakage or may only become available after the appointment process.
+Based on the combined Data Analytics findings and Data Science error analysis, the feature representation was refined.
+
+### Previous no-show group
+
+Previous no-shows were transformed into:
+
+```text
+0
+1
+2
+3+
+```
+
+The resulting groups contained:
+
+| Previous no-show group | Records |
+| ---------------------- | ------: |
+| 0                      |   2,745 |
+| 1                      |   1,482 |
+| 2                      |     419 |
+| 3+                     |      91 |
+
+The 3+ grouping reduced the instability associated with very small individual categories.
+
+### Booking lead-time × previous no-show interaction
+
+A combined categorical interaction feature was created:
+
+```text
+lead_no_show_interaction
+```
+
+It combines:
+
+```text
+booking_lead_group
+```
+
+with:
+
+```text
+previous_no_show_group
+```
+
+This produced 20 possible combinations across the five booking lead-time groups and four previous-no-show groups.
+
+### Appointment time
+
+The appointment_time was removed from the refined feature set because the Data Analytics findings showed that its no-show differences were relatively flat.
+
+---
+
+# Week 6 refined feature set
+
+The refined model used 13 features:
+
+```text
+gender
+age
+age_group
+appointment_type
+appointment_day
+booking_lead_days
+booking_lead_group
+previous_appointments
+previous_no_shows
+previous_no_show_group
+distance_to_clinic_km
+distance_group
+lead_no_show_interaction
+```
+
+The refined feature set contained:
+
+* **5 numerical features**
+* **8 categorical features**
+
+The same stratified 80/20 split and random_state = 42 were retained to support a direct comparison with the Week 5 baseline.
+
+---
+
+# Week 6 refined Logistic Regression
+
+The refined Logistic Regression model produced:
+
+| Metric    | Week 5 Baseline | Week 6 Refined |
+| --------- | --------------: | -------------: |
+| Accuracy  |          61.39% |     **61.50%** |
+| Precision |          60.84% |     **60.87%** |
+| Recall    |          68.87% |     **69.28%** |
+| F1 Score  |          64.60% |     **64.80%** |
+| ROC-AUC   |          66.42% |     **66.47%** |
+
+### Improvement
+
+The improvements were modest:
+
+* Accuracy: **+0.11 percentage points**
+* Precision: **+0.03 percentage points**
+* Recall: **+0.41 percentage points**
+* F1 Score: **+0.20 percentage points**
+* ROC-AUC: **+0.05 percentage points**
+
+The refined model reduced false negatives:
+
+```text
+151 → 149
+```
+
+and increased true positives:
+
+```text
+334 → 336
+```
+
+The feature refinement therefore produced a small improvement rather than a major performance increase.
+
+---
+
+# Week 6 Random Forest comparison
+
+A Random Forest Classifier was evaluated using the same refined feature set.
+
+### Random Forest performance
+
+| Metric    | Refined Logistic Regression | Random Forest |
+| --------- | --------------------------: | ------------: |
+| Accuracy  |                  **61.50%** |        59.92% |
+| Precision |                  **60.87%** |        60.44% |
+| Recall    |                  **69.28%** |        62.68% |
+| F1 Score  |                  **64.80%** |        61.54% |
+| ROC-AUC   |                  **66.47%** |        63.74% |
+
+The Random Forest produced fewer false positives:
+
+```text
+216 → 199
+```
+
+but produced more false negatives:
+
+```text
+149 → 181
+```
+
+It also identified fewer true no-show appointments:
+
+```text
+336 → 304
+```
+
+The Random Forest therefore did not outperform the refined Logistic Regression model.
+
+---
+
+# Week 6 cross-validation
+
+Five-fold Stratified Cross-Validation was performed to assess whether the observed model differences were reasonably consistent across multiple training/testing folds.
+
+### Cross-validation results
+
+| Metric    | Refined Logistic Regression | Random Forest |
+| --------- | --------------------------: | ------------: |
+| Accuracy  |                  **61.87%** |        61.20% |
+| Precision |                  **62.47%** |        61.97% |
+| Recall    |                  **63.72%** |        62.61% |
+| F1 Score  |                  **63.09%** |        62.28% |
+| ROC-AUC   |                  **67.45%** |        64.78% |
+
+The refined Logistic Regression model performed better on all five cross-validation metrics.
+
+This provided additional support for selecting Logistic Regression as the strongest model evaluated during Week 6.
+
+---
+
+# Final Week 6 model selection
+
+The final selected model was:
+
+> **Refined Logistic Regression**
+
+### Test-set performance
+
+* Accuracy: **61.50%**
+* Precision: **60.87%**
+* Recall: **69.28%**
+* F1 Score: **64.80%**
+* ROC-AUC: **66.47%**
+
+### Five-fold cross-validation
+
+* Accuracy: **61.87%**
+* Precision: **62.47%**
+* Recall: **63.72%**
+* F1 Score: **63.09%**
+* ROC-AUC: **67.45%**
+
+The refined Logistic Regression model was selected because it consistently outperformed Random Forest on the available test-set and cross-validation results.
+
+Importantly, the Week 6 findings demonstrate that greater model complexity does not automatically result in better predictive performance.
+
+---
+
+# Key Week 6 outcomes
+
+Week 6 achieved several important outcomes:
+
+### 1. Deeper model understanding
+
+False-positive and false-negative patterns were investigated across multiple appointment and patient-related segments.
+
+### 2. Cross-track integration
+
+Data Analytics findings were incorporated into the Data Science feature-refinement process.
+
+### 3. Improved feature representation
+
+Previous no-show history was grouped into 0, 1, 2, and 3+, and a booking lead-time × previous no-show interaction was introduced.
+
+### 4. Model comparison
+
+Refined Logistic Regression was compared with Random Forest using the same refined feature set.
+
+### 5. Validation
+
+Five-fold stratified cross-validation was used to assess the consistency of the model comparison.
+
+### 6. Model selection
+
+Refined Logistic Regression was selected as the strongest model evaluated during Week 6.
+
+---
+
+# Important modelling decisions
+
+The project maintained several important modelling principles:
+
+* Cancelled appointments were excluded from the binary prediction task.
+* Patient and appointment identifiers were excluded.
+* Leakage-prone variables were not reintroduced.
+* The same train/test split was maintained for direct comparison.
+* Previous no-show history was retained because of its predictive relevance.
+* Very small previous-no-show categories were grouped into 3+.
+* Appointment time was removed during feature refinement.
+* Random Forest was evaluated rather than assumed to be superior because it is more complex.
+* Cross-validation was used to support the final model selection.
+* No causal claims are made from the observed associations.
+
+---
+
+# Limitations
+
+The current model should not be considered deployment-ready.
+
+Important limitations include:
+
+### Dataset
+
+The HealthConnect dataset is a project/synthetic dataset and may not represent real-world healthcare populations or clinic behaviour.
+
+### Model performance
+
+The selected model demonstrates moderate predictive performance rather than high predictive accuracy.
+
+### False negatives
+
+Some actual no-show appointments remain unidentified, which is important if the model were eventually used to support intervention strategies.
 
 ### Generalisation
 
-The dataset represents a specific project scenario. Model performance should not be assumed to generalise to other clinics, populations, or healthcare settings without further validation.
+Performance should not be assumed to generalise to other clinics, patient populations, or healthcare environments.
 
-### Healthcare context
+### Further validation
 
-This project is an educational data science exercise. The baseline model should not be used to make automated decisions about individual patients.
+Future development should include temporal validation and validation using appropriate real-world data where available.
 
----
+### Operational use
 
-# 11. Week 6 direction
-
-The Week 5 baseline establishes a foundation for further development.
-
-The next stage should focus on:
-
-* Comparing additional classification algorithms
-* Evaluating whether model performance improves
-* Investigating feature importance or model coefficients appropriately
-* Further validating engineered features
-* Examining model errors
-* Investigating threshold selection
-* Considering precision-recall trade-offs
-* Improving interpretation of model outputs
-* Strengthening visual communication of findings
-* Documenting reproducibility and modelling decisions
-* Connecting modelling results with the broader project analysis
-
-The goal is to improve the baseline while maintaining a clear distinction between analytical findings and assumptions.
+Model predictions should not be used to make automated decisions about individual patients.
 
 ---
 
-# Repository structure
+# Week 7 Proposed direction
 
-The repository is organised to keep original data, processed data, notebooks, and reports separate.
+The proposed Week 7 focus is to build on the validated Week 6 model rather than simply increasing model complexity.
+
+Potential priorities include:
+
+* Deeper model diagnostics
+* Probability calibration
+* Decision-threshold analysis
+* Precision-recall trade-off analysis
+* Investigation of remaining false positives and false negatives
+* Robustness and temporal validation
+* Segment-level performance evaluation
+* Interpretation of model outputs
+* Exploring how predictions could support practical clinic interventions
+* Further collaboration with Data Analytics
+* Strengthening project documentation and reproducibility
+
+The focus will remain on producing an interpretable and evidence-based predictive workflow rather than optimising a single performance metric.
+
+---
+
+# Repository Structure
+
+The repository is organised to separate raw data, processed data, notebooks, and reports.
 
 ```text
 HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
@@ -446,36 +712,58 @@ HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
 │
 ├── notebooks/
 │   ├── Week_4_HealthConnect_Data_Science.ipynb
-│   └── Week_5_HealthConnect_Data_Science.ipynb
+│   ├── Week_5_HealthConnect_Data_Science.ipynb
+│   └── Week_6_HealthConnect_Integration,_Advanced _Development _& _Validation.ipynb
 │
 ├── reports/
 │   ├── Week 4 project summary-HealthConnect Clinic Experience Lab.pdf
-│   └── HealthConnect_Week_5_Project_Summary.docx
+│   ├── HealthConnect_Week_5_Project_Summary.pdf
+│   ├── HealthConnect_Week6_Project_Summary.pdf
+│   └── HealthConnect_Week6_DataScience_to_DataAnalytics_CrossTrack_Handoff.pdf
 │
 └── .gitignore
 ```
 
-This structure ensures that the original dataset is preserved separately from processed and derived data.
-
 ---
 
-# Project files
+# Project deliverables
 
-### Data
+## Week 4
 
-* data/raw/HealthConnect_Appointment_Data.csv – Original HealthConnect appointment dataset
-* data/raw/HealthConnect_Data_Dictionary.xlsx – Dataset data dictionary
-* data/processed/HealthConnect_Processed_Dataset.csv – Prepared dataset used for Week 5 analysis and modelling
+* Project foundation notebook
+* Initial dataset inspection
+* Business/problem understanding
+* Data quality assessment
+* Initial modelling plan
+* Week 4 project summary
 
-### Notebooks
+## Week 5
 
-* notebooks/Week_4_HealthConnect_Data_Science.ipynb – Week 4 foundation work
-* notebooks/Week_5_HealthConnect_Data_Science.ipynb – Week 5 data preparation, analysis, feature engineering, modelling, and evaluation
+* Data preparation
+* Cleaned/processed dataset
+* Exploratory data analysis
+* Feature engineering
+* Feature selection
+* Baseline Logistic Regression
+* Baseline model evaluation
+* Week 5 project summary
 
-### Reports
+## Week 6
 
-* reports/Week 4 project summary-HealthConnect Clinic Experience Lab.pdf – Week 4 project summary
-* reports/HealthConnect_Week_5_Project_Summary.docx – Week 5 project summary
+* False-positive/false-negative error analysis
+* Cross-track Data Analytics → Data Science integration
+* Data Analytics findings incorporated into feature refinement
+* Refined feature set
+* Previous no-show grouping
+* Booking lead-time × previous no-show interaction
+* Refined Logistic Regression
+* Random Forest comparison
+* Confusion-matrix comparison
+* Five-fold stratified cross-validation
+* Final model selection
+* Week 6 Project Summary
+* Data Science → Data Analytics Cross-Track Handoff
+* Week 6 notebook and supporting outputs
 
 ---
 
@@ -485,40 +773,83 @@ The project uses:
 
 * Python
 * Jupyter Notebook
+* Anaconda
 * pandas
 * NumPy
 * Matplotlib
 * Seaborn
 * scikit-learn
-* Anaconda
 * Git
 * GitHub
+
+### Machine learning techniques
+
+* Logistic Regression
+* Random Forest Classification
+* One-Hot Encoding
+* Feature scaling
+* Stratified train/test splitting
+* Five-fold stratified cross-validation
+* Classification metrics
+* Confusion-matrix analysis
+* ROC-AUC evaluation
+* Error analysis
+* Feature engineering
 
 ---
 
 # Reproducibility and data management
 
-The project follows a reproducible workflow by keeping the original data separate from processed data.
+The project follows a reproducible workflow.
 
-The original dataset should not be overwritten.
+Key principles include:
 
-All transformations and derived features should be documented in the Week 5 notebook and reflected in the processed dataset.
-
-The modelling workflow uses a fixed random state of 42 for the train/test split to support reproducibility.
+* The original dataset is preserved separately.
+* Processed datasets are stored separately from raw data.
+* Modelling transformations are implemented through pipelines.
+* Numerical variables are standardised within the modelling pipeline.
+* Categorical variables are one-hot encoded within the pipeline.
+* A fixed random_state = 42 is used for reproducible train/test splitting.
+* The same train/test split is maintained when comparing Week 5 and Week 6 models.
+* Model evaluation is performed using multiple complementary metrics.
+* Cross-validation is used to assess model consistency.
+* Modelling decisions and limitations are documented.
 
 ---
 
 # Project status
 
-| Week   | Stage                                                             | Status     |
-| ------ | ----------------------------------------------------------------- | ---------- |
-| Week 4 | Business understanding, data inspection and project foundation    | Completed  |
-| Week 5 | Data preparation, EDA, feature engineering and baseline modelling | Completed  |
-| Week 6 | Model improvement, deeper evaluation and refinement               | Next stage |
+| Week   | Stage                                                                                        | Status      |
+| ------ | -------------------------------------------------------------------------------------------- | ----------- |
+| Week 4 | Business understanding, data inspection and project foundation                               | ✅ Completed |
+| Week 5 | Data preparation, EDA, feature engineering and baseline modelling                            | ✅ Completed |
+| Week 6 | Error analysis, cross-track integration, feature refinement, model comparison and validation | ✅ Completed |
+| Week 7 | Further diagnostics, robustness and operational interpretation                               | 🔵 Proposed |
+
+---
+
+# Overall project progress
+
+The HealthConnect project has progressed from an initial understanding of the appointment problem to a structured and validated predictive modelling workflow.
+
+The current evidence supports Refined Logistic Regression as the strongest model evaluated so far.
+
+The Week 6 work also demonstrated the importance of:
+
+* Understanding model errors
+* Collaborating across analytical tracks
+* Refining features based on evidence
+* Comparing models rather than assuming complexity improves performance
+* Using cross-validation to strengthen model selection
+* Clearly documenting limitations before considering operational use
 
 ---
 
 # Author
 
 Samuel Makobe
+
 Data Science Intern
+
+
+Project: HealthConnect Clinic – Appointment No-Show Analysis
