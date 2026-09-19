@@ -1135,11 +1135,11 @@ Key principles include:
 
 | Week   | Stage                                                                                                     | Status        |
 | ------ | --------------------------------------------------------------------------------------------------------- | ------------- |
-| Week 4 | Business understanding, data inspection and project foundation                                            | ✅ Completed   |
-| Week 5 | Data preparation, EDA, feature engineering and baseline modelling                                         | ✅ Completed   |
-| Week 6 | Error analysis, cross-track integration, feature refinement, model comparison and validation              | ✅ Completed   |
-| Week 7 | Testing, segment analysis, robustness testing, targeted refinement, re-testing and cross-track validation | ✅ Completed   |
-| Week 8 | Final integration, additional validation and final presentation                                           | 🔵 Next Stage |
+| Week 4 | Business understanding, data inspection and project foundation                                            |  Completed   |
+| Week 5 | Data preparation, EDA, feature engineering and baseline modelling                                         |  Completed   |
+| Week 6 | Error analysis, cross-track integration, feature refinement, model comparison and validation              |  Completed   |
+| Week 7 | Testing, segment analysis, robustness testing, targeted refinement, re-testing and cross-track validation |  Completed   |
+| Week 8 | Final integration, additional validation and final presentation                                           |  Next Stage |
 
 ---
 
