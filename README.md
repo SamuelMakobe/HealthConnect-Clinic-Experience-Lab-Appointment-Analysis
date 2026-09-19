@@ -4,9 +4,9 @@
 
 This project analyses appointment attendance patterns for **HealthConnect Clinic**, a fictional outpatient healthcare provider, and develops a machine-learning approach for predicting patient no-shows.
 
-The project is being developed progressively through the **AnalystLab Africa Experience Lab**. The work has progressed from business and data understanding to data preparation, exploratory analysis, baseline modelling, error analysis, cross-track integration, feature refinement, model comparison, and validation.
+The project is being developed progressively through the **AnalystLab Africa Experience Lab**. The work has progressed from business and data understanding to data preparation, exploratory analysis, baseline modelling, error analysis, cross-track integration, feature refinement, model comparison, testing, re-testing and validation.
 
-> **Project status: Week 6 – Data Science Development, Model Refinement and Validation completed.**
+> **Project status: Week 7 - Data Science Testing, Refinement, Cross-Track Validation and Re-testing completed.**
 
 The project is an educational data science exercise and is **not a production healthcare prediction system**.
 
@@ -51,8 +51,13 @@ The project follows a structured data science workflow:
 13. Model comparison
 14. Cross-validation
 15. Model selection
-16. Interpretation
-17. Limitations and recommendations
+16. Testing and validation
+17. Targeted refinement
+18. Re-testing
+19. Segment performance analysis
+20. Robustness and generalisation assessment
+21. Model suitability assessment
+22. Limitations and recommendations
 
 ---
 
@@ -60,7 +65,7 @@ The project follows a structured data science workflow:
 
 Week 4 focused on establishing the foundation of the HealthConnect project.
 
-### Objectives
+## Objectives
 
 The work included:
 
@@ -74,14 +79,14 @@ The work included:
 * Planning the initial modelling strategy
 * Documenting assumptions and limitations
 
-### Original dataset
+## Original dataset
 
 The original HealthConnect dataset contained:
 
 * **5,000 appointment records**
 * **18 variables**
 
-### Original appointment outcomes
+## Original appointment outcomes
 
 | Appointment outcome | Records | Percentage |
 | ------------------- | ------: | ---------: |
@@ -89,7 +94,7 @@ The original HealthConnect dataset contained:
 | Attended            |   2,314 |     46.28% |
 | Cancelled           |     263 |      5.26% |
 
-### Missing values identified
+## Missing values identified
 
 | Variable              | Missing values |
 | --------------------- | -------------: |
@@ -592,54 +597,318 @@ Importantly, the Week 6 findings demonstrate that greater model complexity does 
 
 ---
 
-# Key Week 6 outcomes
+# Week 7 – Testing, refinement and validation
 
-Week 6 achieved several important outcomes:
+Week 7 focused on testing the Week 6 candidate model rather than rebuilding the modelling workflow.
 
-### 1. Deeper model understanding
+The main objectives were:
 
-False-positive and false-negative patterns were investigated across multiple appointment and patient-related segments.
+* Re-establish the Week 6 candidate model.
+* Test overall predictive performance.
+* Conduct false-positive and false-negative analysis.
+* Evaluate performance across important segments.
+* Assess robustness and generalisation.
+* Test a targeted feature refinement.
+* Re-test the retained candidate.
+* Complete meaningful cross-track testing with Data Analytics.
+* Assess model suitability.
+* Document remaining limitations and Week 8 requirements.
 
-### 2. Cross-track integration
+The Week 7 progression was:
 
-Data Analytics findings were incorporated into the Data Science feature-refinement process.
-
-### 3. Improved feature representation
-
-Previous no-show history was grouped into 0, 1, 2, and 3+, and a booking lead-time × previous no-show interaction was introduced.
-
-### 4. Model comparison
-
-Refined Logistic Regression was compared with Random Forest using the same refined feature set.
-
-### 5. Validation
-
-Five-fold stratified cross-validation was used to assess the consistency of the model comparison.
-
-### 6. Model selection
-
-Refined Logistic Regression was selected as the strongest model evaluated during Week 6.
-
----
-
-# Important modelling decisions
-
-The project maintained several important modelling principles:
-
-* Cancelled appointments were excluded from the binary prediction task.
-* Patient and appointment identifiers were excluded.
-* Leakage-prone variables were not reintroduced.
-* The same train/test split was maintained for direct comparison.
-* Previous no-show history was retained because of its predictive relevance.
-* Very small previous-no-show categories were grouped into 3+.
-* Appointment time was removed during feature refinement.
-* Random Forest was evaluated rather than assumed to be superior because it is more complex.
-* Cross-validation was used to support the final model selection.
-* No causal claims are made from the observed associations.
+```text
+Week 6 Candidate
+      ↓
+Structured Testing
+      ↓
+Error Analysis
+      ↓
+Segment Performance Testing
+      ↓
+Robustness & Generalisation Testing
+      ↓
+Targeted Refinement
+      ↓
+Re-testing
+      ↓
+Cross-Track Validation
+      ↓
+Model Suitability Assessment
+      ↓
+Week 8 Preparation
+```
 
 ---
 
-# Limitations
+# Week 7 candidate model testing
+
+The Week 6 Refined Logistic Regression model was successfully re-established using the same modelling structure and stratified 80/20 split.
+
+The candidate reproduced the Week 6 test-set performance:
+
+| Metric    | Week 7 Test |
+| --------- | ----------: |
+| Accuracy  |  **61.50%** |
+| Precision |  **60.87%** |
+| Recall    |  **69.28%** |
+| F1 Score  |  **64.80%** |
+| ROC-AUC   |  **66.47%** |
+
+The confusion matrix was:
+
+```text
+[[247, 216],
+ [149, 336]]
+```
+
+This reproduced the Week 6 candidate results exactly.
+
+---
+
+# Week 7 error and segment testing
+
+The candidate model was evaluated across:
+
+* Booking lead-time groups
+* Previous no-show history
+* Appointment type
+* Age
+* Appointment day
+* Appointment time
+* Distance to clinic
+
+### Main testing finding
+
+Booking lead time continued to show the clearest variation in model performance.
+
+In particular, shorter booking lead-time groups showed relatively low recall.
+
+Previous no-show history also remained an important predictive feature.
+
+Other tested segments showed variation but did not provide sufficient evidence to justify independent feature changes.
+
+The results therefore supported **targeted refinement rather than broad model restructuring**.
+
+---
+
+# Week 7 robustness and generalisation testing
+
+The retained model was evaluated using:
+
+* Held-out test-set performance
+* Training-versus-test comparison
+* Existing 5-fold cross-validation results
+* Cross-validation variability
+
+The results showed:
+
+* No obvious severe overfitting.
+* Reasonably close training and test performance.
+* Relatively small variation across cross-validation folds.
+* Moderate but reasonably stable predictive performance.
+
+The model nevertheless requires further validation using independent or temporally separated data before any production use could be considered.
+
+---
+
+# Week 7 targeted feature refinement
+
+Based on the strong ordered relationship between booking lead time and no-show behaviour, a new logarithmic representation was tested:
+
+```python
+df["booking_lead_log"] = np.log1p(df["booking_lead_days"])
+```
+
+This created a non-linear representation of booking lead time while retaining the original `booking_lead_days` and `booking_lead_group` features.
+
+The Week 7 refined model used **14 features**.
+
+---
+
+# Week 7 refinement results
+
+The new booking lead-time representation produced:
+
+| Metric    | Week 6 Candidate | Week 7 Refinement |
+| --------- | ---------------: | ----------------: |
+| Accuracy  |           61.50% |            61.50% |
+| Precision |           60.87% |            60.91% |
+| Recall    |           69.28% |            69.07% |
+| F1 Score  |           64.80% |            64.73% |
+| ROC-AUC   |           66.47% |            66.52% |
+
+The overall changes were marginal.
+
+The booking lead-time segment comparison also showed no consistent improvement in the weaker groups.
+
+### Refinement decision
+
+The `booking_lead_log` feature was therefore **rejected**.
+
+The Week 6 Refined Logistic Regression model remained the retained candidate.
+
+This was an evidence-based refinement decision: the feature was tested but not adopted because it did not demonstrate meaningful or consistent improvement.
+
+---
+
+# Week 7 cross-track testing
+
+The Data Science track continued its collaboration with the **Data Analytics track**.
+
+The Data Analytics findings identified:
+
+* Booking lead time as a strong predictor.
+* Previous no-show history as another important predictor.
+* 15–30 day and 31–45 day booking lead-time groups as important segments.
+* An additive rather than multiplicative relationship between booking lead time and previous no-show history.
+
+The Data Science track tested this recommendation by creating:
+
+```text
+lead_no_show_score
+```
+
+The score combined ordinal booking lead-time groups with previous no-show groups.
+
+---
+
+# Collaborative model test
+
+The additive `lead_no_show_score` model produced:
+
+| Metric    | Week 6 Candidate | Collaborative Model |
+| --------- | ---------------: | ------------------: |
+| Accuracy  |           61.50% |              61.18% |
+| Precision |           60.87% |              60.73% |
+| Recall    |           69.28% |              68.25% |
+| F1 Score  |           64.80% |              64.27% |
+| ROC-AUC   |           66.47% |              66.39% |
+
+The additive representation did not improve the candidate model.
+
+### Cross-track decision
+
+The `lead_no_show_score` representation was therefore **not adopted**.
+
+The existing `lead_no_show_interaction` representation was retained.
+
+The unsuccessful collaborative test was documented as evidence of model refinement and decision-making rather than discarded.
+
+---
+
+# Week 7 re-testing
+
+After rejecting the proposed refinements, the retained Week 6 candidate was re-tested.
+
+The re-test reproduced:
+
+* Accuracy: **61.50%**
+* Precision: **60.87%**
+* Recall: **69.28%**
+* F1 Score: **64.80%**
+* ROC-AUC: **66.47%**
+
+The confusion matrix was again:
+
+```text
+[[247, 216],
+ [149, 336]]
+```
+
+The exact reproduction confirmed the candidate model's results within the same evaluation framework.
+
+This should not be interpreted as independent validation because the same held-out test set was used.
+
+---
+
+# Week 7 model suitability assessment
+
+The retained Logistic Regression model was assessed against:
+
+* Overall predictive performance
+* Error behaviour
+* Segment performance
+* Robustness
+* Business relevance
+* Operational readiness
+
+The model demonstrated:
+
+* Moderate predictive performance.
+* Reasonable stability across the current validation framework.
+* Meaningful predictive information about no-show behaviour.
+* Continued false-positive and false-negative errors.
+* Segment-level variation, particularly across booking lead-time groups.
+
+The model is therefore considered:
+
+> **Suitable for continued testing and development, but not yet suitable for production deployment.**
+
+---
+
+# Week 7 key outcomes
+
+Week 7 achieved several important outcomes:
+
+### 1. Candidate model testing
+
+The Week 6 candidate was successfully re-established and its performance was reproduced.
+
+### 2. Error testing
+
+False-positive and false-negative patterns were investigated across relevant segments.
+
+### 3. Segment performance testing
+
+Booking lead time was confirmed as the clearest area requiring continued attention.
+
+### 4. Robustness testing
+
+Training/test and cross-validation evidence showed reasonable stability without obvious severe overfitting.
+
+### 5. Targeted refinement
+
+A logarithmic booking lead-time transformation was tested but rejected.
+
+### 6. Cross-track validation
+
+The Data Analytics additive recommendation was converted into a testable modelling feature and evaluated.
+
+### 7. Evidence-based model retention
+
+Neither tested refinement improved the candidate sufficiently to justify replacing the Week 6 model.
+
+### 8. Re-testing
+
+The retained candidate was re-tested and reproduced the Week 6 results.
+
+### 9. Model suitability
+
+The candidate was assessed as suitable for continued development but not production-ready.
+
+---
+
+# Important Week 7 modelling decisions
+
+The project maintained the following principles:
+
+* The Week 6 candidate remained the reference model.
+* The same evaluation framework was maintained for direct comparison.
+* Booking lead time remained a priority feature.
+* Previous no-show history remained a relevant feature.
+* The `booking_lead_log` refinement was rejected.
+* The additive `lead_no_show_score` was rejected.
+* The existing `lead_no_show_interaction` was retained.
+* No leakage-prone variables were reintroduced.
+* Segment variation was interpreted cautiously.
+* Small subgroup sizes were not treated as definitive evidence.
+* Predictive associations were not interpreted as causal relationships.
+* Unsuccessful experiments were documented as evidence.
+* The model was not presented as production-ready.
+
+---
+
+# Limitations and remaining risks
 
 The current model should not be considered deployment-ready.
 
@@ -647,7 +916,7 @@ Important limitations include:
 
 ### Dataset
 
-The HealthConnect dataset is a project/synthetic dataset and may not represent real-world healthcare populations or clinic behaviour.
+The HealthConnect dataset is a fictional/synthetic project dataset and may not represent real-world healthcare populations or clinic behaviour.
 
 ### Model performance
 
@@ -655,15 +924,27 @@ The selected model demonstrates moderate predictive performance rather than high
 
 ### False negatives
 
-Some actual no-show appointments remain unidentified, which is important if the model were eventually used to support intervention strategies.
+Some actual no-show appointments remain unidentified.
+
+### False positives
+
+Some attended appointments are incorrectly classified as potential no-shows.
+
+### Segment variation
+
+Model performance varies across booking lead-time groups and other segments.
 
 ### Generalisation
 
-Performance should not be assumed to generalise to other clinics, patient populations, or healthcare environments.
+Performance should not be assumed to generalise to other clinics, patient populations or healthcare environments.
 
-### Further validation
+### Independent validation
 
-Future development should include temporal validation and validation using appropriate real-world data where available.
+The model has not yet been independently validated using a separate external or temporally separated dataset.
+
+### Threshold and calibration
+
+Alternative classification thresholds and probability calibration have not yet been fully evaluated.
 
 ### Operational use
 
@@ -671,31 +952,32 @@ Model predictions should not be used to make automated decisions about individua
 
 ---
 
-# Week 7 Proposed direction
+# Week 8 direction
 
-The proposed Week 7 focus is to build on the validated Week 6 model rather than simply increasing model complexity.
+The Week 8 focus should move from Week 7 testing into **final integration and validation**.
 
 Potential priorities include:
 
-* Deeper model diagnostics
-* Probability calibration
-* Decision-threshold analysis
-* Precision-recall trade-off analysis
-* Investigation of remaining false positives and false negatives
-* Robustness and temporal validation
-* Segment-level performance evaluation
-* Interpretation of model outputs
-* Exploring how predictions could support practical clinic interventions
-* Further collaboration with Data Analytics
-* Strengthening project documentation and reproducibility
+* Final candidate model confirmation.
+* Independent or temporal validation where possible.
+* Probability calibration.
+* Classification-threshold analysis.
+* Precision-recall trade-off analysis.
+* Continued segment-level testing.
+* Final error analysis.
+* ML Engineering integration.
+* Final model interface validation.
+* Documentation of the final candidate model.
+* Final limitations and risk documentation.
+* Preparation of final project presentation materials.
 
-The focus will remain on producing an interpretable and evidence-based predictive workflow rather than optimising a single performance metric.
+The focus should remain on producing an interpretable and evidence-based predictive workflow rather than optimising a single performance metric.
 
 ---
 
 # Repository Structure
 
-The repository is organised to separate raw data, processed data, notebooks, and reports.
+The repository is organised to separate raw data, processed data, notebooks, reports, and supporting project outputs.
 
 ```text
 HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
@@ -713,13 +995,16 @@ HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
 ├── notebooks/
 │   ├── Week_4_HealthConnect_Data_Science.ipynb
 │   ├── Week_5_HealthConnect_Data_Science.ipynb
-│   └── Week_6_HealthConnect_Integration,_Advanced _Development _& _Validation.ipynb
+│   ├── Week_6_HealthConnect_Integration,_Advanced _Development _& _Validation.ipynb
+│   └── HealthConnect_Week7_Data_Science.ipynb
 │
 ├── reports/
 │   ├── Week 4 project summary-HealthConnect Clinic Experience Lab.pdf
 │   ├── HealthConnect_Week_5_Project_Summary.pdf
 │   ├── HealthConnect_Week6_Project_Summary.pdf
-│   └── HealthConnect_Week6_DataScience_to_DataAnalytics_CrossTrack_Handoff.pdf
+│   ├── HealthConnect_Week6_DataScience_to_DataAnalytics_CrossTrack_Handoff.pdf
+│   ├── HealthConnect_Week7_Data_Science_to_Data_ Analytics_Cross-track_handoff.pdf
+│   └── HealthConnect_Week7_Project_Summary.pdf
 │
 └── .gitignore
 ```
@@ -765,6 +1050,28 @@ HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
 * Data Science → Data Analytics Cross-Track Handoff
 * Week 6 notebook and supporting outputs
 
+## Week 7
+
+* Week 6 candidate model re-establishment
+* Candidate model testing
+* False-positive/false-negative testing
+* Segment performance testing
+* Booking lead-time performance analysis
+* Previous no-show segment analysis
+* Robustness and generalisation testing
+* Training-versus-test evaluation
+* Cross-validation stability assessment
+* `booking_lead_log` refinement
+* Refinement rejection based on evidence
+* Data Analytics → Data Science cross-track testing
+* `lead_no_show_score` collaborative experiment
+* Re-testing of retained candidate
+* Model suitability assessment
+* Limitations and risk assessment
+* Week 8 recommendations
+* Week 7 Project Summary
+* Week 7 supporting outputs
+
 ---
 
 # Tools and technologies
@@ -794,7 +1101,10 @@ The project uses:
 * Confusion-matrix analysis
 * ROC-AUC evaluation
 * Error analysis
+* Segment-level performance analysis
 * Feature engineering
+* Model refinement
+* Model re-testing
 
 ---
 
@@ -810,38 +1120,85 @@ Key principles include:
 * Numerical variables are standardised within the modelling pipeline.
 * Categorical variables are one-hot encoded within the pipeline.
 * A fixed random_state = 42 is used for reproducible train/test splitting.
-* The same train/test split is maintained when comparing Week 5 and Week 6 models.
+* The same train/test split is maintained when comparing models where direct comparison is required.
 * Model evaluation is performed using multiple complementary metrics.
 * Cross-validation is used to assess model consistency.
+* Segment-level performance is examined during validation.
 * Modelling decisions and limitations are documented.
+* Unsuccessful refinements are retained as evidence rather than removed from the project record.
+* Cross-track recommendations are tested before being incorporated into the model.
+* The project does not make causal claims from predictive associations.
 
 ---
 
 # Project status
 
-| Week   | Stage                                                                                        | Status      |
-| ------ | -------------------------------------------------------------------------------------------- | ----------- |
-| Week 4 | Business understanding, data inspection and project foundation                               | ✅ Completed |
-| Week 5 | Data preparation, EDA, feature engineering and baseline modelling                            | ✅ Completed |
-| Week 6 | Error analysis, cross-track integration, feature refinement, model comparison and validation | ✅ Completed |
-| Week 7 | Further diagnostics, robustness and operational interpretation                               | 🔵 Proposed |
+| Week   | Stage                                                                                                     | Status        |
+| ------ | --------------------------------------------------------------------------------------------------------- | ------------- |
+| Week 4 | Business understanding, data inspection and project foundation                                            | ✅ Completed   |
+| Week 5 | Data preparation, EDA, feature engineering and baseline modelling                                         | ✅ Completed   |
+| Week 6 | Error analysis, cross-track integration, feature refinement, model comparison and validation              | ✅ Completed   |
+| Week 7 | Testing, segment analysis, robustness testing, targeted refinement, re-testing and cross-track validation | ✅ Completed   |
+| Week 8 | Final integration, additional validation and final presentation                                           | 🔵 Next Stage |
 
 ---
 
 # Overall project progress
 
-The HealthConnect project has progressed from an initial understanding of the appointment problem to a structured and validated predictive modelling workflow.
+The HealthConnect project has progressed from an initial understanding of the appointment problem to a structured and tested predictive modelling workflow.
 
-The current evidence supports Refined Logistic Regression as the strongest model evaluated so far.
+The current evidence supports **Refined Logistic Regression** as the retained candidate model evaluated during the project.
 
-The Week 6 work also demonstrated the importance of:
+Week 7 strengthened the project by testing the candidate model beyond the initial Week 6 validation stage.
 
-* Understanding model errors
-* Collaborating across analytical tracks
-* Refining features based on evidence
-* Comparing models rather than assuming complexity improves performance
-* Using cross-validation to strengthen model selection
-* Clearly documenting limitations before considering operational use
+The Week 7 work demonstrated the importance of:
+
+* Testing rather than assuming model performance.
+* Understanding false-positive and false-negative behaviour.
+* Evaluating performance across relevant segments.
+* Assessing robustness and generalisation.
+* Refining features only when supported by evidence.
+* Testing cross-track recommendations.
+* Rejecting refinements that do not demonstrate meaningful improvement.
+* Re-testing the retained candidate.
+* Clearly documenting model limitations and operational risks.
+* Preparing the model for final integration rather than presenting it as production-ready.
+
+The project has therefore progressed through:
+
+```text
+Business Understanding
+        ↓
+Data Preparation
+        ↓
+Exploratory Analysis
+        ↓
+Baseline Modelling
+        ↓
+Error Analysis
+        ↓
+Cross-Track Integration
+        ↓
+Feature Refinement
+        ↓
+Model Comparison
+        ↓
+Cross-Validation
+        ↓
+Model Selection
+        ↓
+Testing
+        ↓
+Segment & Robustness Validation
+        ↓
+Targeted Refinement
+        ↓
+Re-testing
+        ↓
+Cross-Track Validation
+        ↓
+Final Integration & Validation
+```
 
 ---
 
@@ -850,6 +1207,3 @@ The Week 6 work also demonstrated the importance of:
 Samuel Makobe
 
 Data Science Intern
-
-
-Project: HealthConnect Clinic – Appointment No-Show Analysis
