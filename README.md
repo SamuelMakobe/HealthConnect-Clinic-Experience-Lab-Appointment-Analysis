@@ -1,4 +1,4 @@
-# HealthConnect Clinic – Appointment No-Show Analysis
+    # HealthConnect Clinic – Appointment No-Show Analysis
 
 ## Overview
 
@@ -6,7 +6,7 @@ This project analyses appointment attendance patterns for **HealthConnect Clinic
 
 The project is being developed progressively through the **AnalystLab Africa Experience Lab**. The work has progressed from business and data understanding to data preparation, exploratory analysis, baseline modelling, error analysis, cross-track integration, feature refinement, model comparison, testing, re-testing and validation.
 
-> **Project status: Week 7 - Data Science Testing, Refinement, Cross-Track Validation and Re-testing completed.**
+> **Project status: Week 8 - Data Science Final Integration, Reproducibility Review, Documentation and Project Showcase completed.**
 
 The project is an educational data science exercise and is **not a production healthcare prediction system**.
 
@@ -58,6 +58,9 @@ The project follows a structured data science workflow:
 20. Robustness and generalisation assessment
 21. Model suitability assessment
 22. Limitations and recommendations
+23. Final candidate reproduction
+24. Final cross-track handoff documentation
+25. Stakeholder communication and project showcase
 
 ---
 
@@ -952,26 +955,143 @@ Model predictions should not be used to make automated decisions about individua
 
 ---
 
-# Week 8 direction
+# Week 8 – Final integration, reproducibility and project showcase
 
-The Week 8 focus should move from Week 7 testing into **final integration and validation**.
+Week 8 moved the project from structured testing into final Data Science integration, reproducibility confirmation, stakeholder communication and presentation readiness. No new model was introduced. The focus remained on confirming and documenting the strongest candidate already supported by the available evidence.
 
-Potential priorities include:
+## Week 8 objectives
 
-* Final candidate model confirmation.
-* Independent or temporal validation where possible.
-* Probability calibration.
-* Classification-threshold analysis.
-* Precision-recall trade-off analysis.
-* Continued segment-level testing.
-* Final error analysis.
-* ML Engineering integration.
-* Final model interface validation.
-* Documentation of the final candidate model.
-* Final limitations and risk documentation.
-* Preparation of final project presentation materials.
+The final Data Science stage included:
 
-The focus should remain on producing an interpretable and evidence-based predictive workflow rather than optimising a single performance metric.
+* Re-establishing the retained Week 6/7 candidate model.
+* Recreating the engineered features required by the final model.
+* Reproducing the final train/test workflow using the established stratified split.
+* Confirming the final model metrics and confusion matrix.
+* Comparing the Week 5 baseline with the final candidate.
+* Consolidating final feature and model-selection decisions.
+* Integrating validated findings from the Data Analytics track.
+* Preparing the Data Science → ML Engineering handoff specification.
+* Documenting limitations, responsible use and business suitability.
+* Completing a full notebook reproducibility review.
+* Preparing a non-technical stakeholder summary and final project presentation.
+
+## Final candidate reproduction
+
+The final **Refined Logistic Regression** was reproduced using the established 13-feature representation and the same stratified 80/20 split with `random_state = 42`.
+
+The final test-set performance was:
+
+| Metric | Final result |
+| --- | ---: |
+| Accuracy | **61.50%** |
+| Precision | **60.87%** |
+| Recall | **69.28%** |
+| F1 Score | **64.80%** |
+| ROC-AUC | **66.47%** |
+
+The reproduced confusion matrix was:
+
+```text
+[[247, 216],
+ [149, 336]]
+```
+
+The model therefore correctly identified **336 of 485 actual no-shows**, or approximately seven out of ten actual no-shows in the held-out test set.
+
+The Week 8 reproduction matched the established Week 6/7 candidate results exactly within the same project environment. This confirms internal reproducibility of the workflow, but it is not independent external validation.
+
+## Baseline vs final candidate
+
+| Metric | Week 5 baseline | Final candidate | Change |
+| --- | ---: | ---: | ---: |
+| Accuracy | 61.39% | **61.50%** | +0.11 pp |
+| Precision | 60.84% | **60.87%** | +0.03 pp |
+| Recall | 68.87% | **69.28%** | +0.41 pp |
+| F1 Score | 64.60% | **64.80%** | +0.20 pp |
+| ROC-AUC | 66.42% | **66.47%** | +0.05 pp |
+
+The final model produced modest rather than dramatic metric improvements. The main value of the later project stages came from stronger validation, error analysis, cross-track testing, evidence-based refinement decisions and reproducibility rather than optimisation of a single metric.
+
+## Final model and feature decisions
+
+The retained final candidate uses 13 predictors:
+
+```text
+gender
+age
+age_group
+appointment_type
+appointment_day
+booking_lead_days
+booking_lead_group
+previous_appointments
+previous_no_shows
+previous_no_show_group
+distance_to_clinic_km
+distance_group
+lead_no_show_interaction
+```
+
+The final workflow retains:
+
+* `previous_no_show_group` with categories 0, 1, 2 and 3+.
+* `lead_no_show_interaction` as the established booking lead-time × previous no-show representation.
+* StandardScaler for numerical features.
+* OneHotEncoder with unknown-category handling for categorical features.
+* Logistic Regression as the final classifier.
+
+The Week 7 `booking_lead_log` refinement and collaborative additive `lead_no_show_score` were not adopted because neither produced meaningful and consistent improvement over the retained candidate.
+
+## Final cross-track integration status
+
+Validated Data Analytics findings supported the interpretation of booking lead time and previous no-show history as important factors associated with no-show behaviour. These findings were used to motivate and evaluate Data Science refinements rather than being automatically incorporated without predictive testing.
+
+From the Data Science side, the final handoff specification for ML Engineering was prepared. It documents:
+
+* The 13 required model inputs.
+* Engineered feature requirements.
+* Numerical and categorical preprocessing.
+* Target definition: 1 = No-Show and 0 = Attended.
+* Final Logistic Regression classifier.
+* Expected predicted class and no-show probability outputs.
+
+Final ML Engineering implementation and validation could not be completed before submission because the required cross-track collaboration was unavailable. This remains a **documented pending dependency** and is not presented as a completed integration.
+
+## Final model suitability and responsible use
+
+The final candidate demonstrates moderate and reasonably stable predictive performance within the current project framework. It should be treated as a **decision-support prototype**, not a production healthcare prediction system.
+
+Important considerations include:
+
+* False-positive rate: **46.65%**.
+* False-negative rate: **30.72%**.
+* The HealthConnect data are fictional/synthetic and educational.
+* Predictive associations should not be interpreted as causal relationships.
+* Performance has not been independently validated on real operational healthcare data.
+* Classification-threshold optimisation and probability calibration remain future work.
+* Predictions should not be used as the sole basis for decisions about individual patients.
+
+## Week 8 final outputs
+
+The final Data Science stage produced:
+
+* Final Week 8 Data Science notebook.
+* Reproduced final candidate model and evaluation.
+* Baseline-versus-final comparison.
+* Final error and suitability interpretation.
+* Consolidated feature and model decisions.
+* Data Analytics → Data Science integration evidence.
+* Data Science → ML Engineering handoff specification.
+* Documented pending ML Engineering integration dependency.
+* Non-technical stakeholder model summary.
+* Final project presentation and presentation script.
+* Final reproducibility review.
+
+## Final Data Science outcome
+
+The final project outcome is a reproducible **Refined Logistic Regression** prototype that converts appointment and patient-history information into a structured no-show risk signal. The project demonstrates an end-to-end Data Science process that includes data preparation, exploratory analysis, feature engineering, model development, model comparison, cross-validation, error analysis, segment testing, cross-track validation, targeted refinement, evidence-based rejection of unsuccessful experiments, reproducibility and responsible model communication.
+
+The model is suitable as a tested educational decision-support prototype and portfolio project, but further real-world validation would be required before operational use.
 
 ---
 
@@ -996,7 +1116,8 @@ HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
 │   ├── Week_4_HealthConnect_Data_Science.ipynb
 │   ├── Week_5_HealthConnect_Data_Science.ipynb
 │   ├── Week_6_HealthConnect_Integration,_Advanced _Development _& _Validation.ipynb
-│   └── HealthConnect_Week7_Data_Science.ipynb
+│   ├── HealthConnect_Week7_Data_Science.ipynb
+│   └── HealthConnect_Week8_Data_Science.ipynb
 │
 ├── reports/
 │   ├── Week 4 project summary-HealthConnect Clinic Experience Lab.pdf
@@ -1004,7 +1125,9 @@ HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
 │   ├── HealthConnect_Week6_Project_Summary.pdf
 │   ├── HealthConnect_Week6_DataScience_to_DataAnalytics_CrossTrack_Handoff.pdf
 │   ├── HealthConnect_Week7_Data_Science_to_Data_ Analytics_Cross-track_handoff.pdf
-│   └── HealthConnect_Week7_Project_Summary.pdf
+│   ├── HealthConnect_Week7_Project_Summary.pdf
+│   ├── HealthConnect_Non_Technical_Model_Summary_Report.docx
+│   └── HealthConnect_Week8_Data_Science_Showcase_FINAL.pptx
 │
 └── .gitignore
 ```
@@ -1071,6 +1194,21 @@ HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
 * Week 8 recommendations
 * Week 7 Project Summary
 * Week 7 supporting outputs
+
+## Week 8
+
+* Final candidate model reproduction
+* Final baseline-versus-candidate comparison
+* Final model evaluation and confusion-matrix confirmation
+* Final feature and model-selection documentation
+* Data Analytics findings integrated into final interpretation
+* Data Science → ML Engineering technical handoff specification
+* Pending ML Engineering dependency documented transparently
+* Final limitations and responsible-use assessment
+* End-to-end Data Science walkthrough
+* Final reproducibility review
+* Non-technical stakeholder model summary
+* Final project presentation and speaker script
 
 ---
 
@@ -1139,66 +1277,49 @@ Key principles include:
 | Week 5 | Data preparation, EDA, feature engineering and baseline modelling                                         |  Completed   |
 | Week 6 | Error analysis, cross-track integration, feature refinement, model comparison and validation              |  Completed   |
 | Week 7 | Testing, segment analysis, robustness testing, targeted refinement, re-testing and cross-track validation |  Completed   |
-| Week 8 | Final integration, additional validation and final presentation                                           |  Next Stage |
+| Week 8 | Final candidate reproduction, integration documentation, reproducibility review and project showcase       |  Completed  |
 
 ---
 
 # Overall project progress
 
-The HealthConnect project has progressed from an initial understanding of the appointment problem to a structured and tested predictive modelling workflow.
+The HealthConnect project progressed from initial business and data understanding to a fully documented and reproducible Data Science prototype for appointment no-show risk.
 
-The current evidence supports **Refined Logistic Regression** as the retained candidate model evaluated during the project.
+The final evidence supports **Refined Logistic Regression** as the retained candidate model evaluated during the project. Its final held-out test performance is **61.50% accuracy, 60.87% precision, 69.28% recall, 64.80% F1 score and 66.47% ROC-AUC**.
 
-Week 7 strengthened the project by testing the candidate model beyond the initial Week 6 validation stage.
+The project demonstrates that meaningful Data Science progress is not limited to increasing a model metric. Later stages strengthened the solution through model comparison, cross-validation, false-positive and false-negative analysis, segment testing, robustness assessment, cross-track validation, targeted feature experiments, evidence-based rejection of unsuccessful refinements and exact workflow reproduction.
 
-The Week 7 work demonstrated the importance of:
-
-* Testing rather than assuming model performance.
-* Understanding false-positive and false-negative behaviour.
-* Evaluating performance across relevant segments.
-* Assessing robustness and generalisation.
-* Refining features only when supported by evidence.
-* Testing cross-track recommendations.
-* Rejecting refinements that do not demonstrate meaningful improvement.
-* Re-testing the retained candidate.
-* Clearly documenting model limitations and operational risks.
-* Preparing the model for final integration rather than presenting it as production-ready.
-
-The project has therefore progressed through:
+The final project progression was:
 
 ```text
 Business Understanding
         ↓
-Data Preparation
-        ↓
-Exploratory Analysis
+Data Preparation & EDA
         ↓
 Baseline Modelling
         ↓
-Error Analysis
+Error Analysis & Feature Refinement
         ↓
-Cross-Track Integration
+Model Comparison & Cross-Validation
         ↓
-Feature Refinement
+Candidate Model Selection
         ↓
-Model Comparison
+Structured Testing & Segment Analysis
         ↓
-Cross-Validation
+Robustness & Generalisation Assessment
         ↓
-Model Selection
-        ↓
-Testing
-        ↓
-Segment & Robustness Validation
-        ↓
-Targeted Refinement
-        ↓
-Re-testing
+Targeted Refinement & Re-testing
         ↓
 Cross-Track Validation
         ↓
-Final Integration & Validation
+Final Candidate Reproduction
+        ↓
+Integration Handoff & Responsible-Use Documentation
+        ↓
+Stakeholder Communication & Project Showcase
 ```
+
+The final model remains a **decision-support prototype rather than a production-ready healthcare system**. Future work should include validation on real operational data, threshold optimisation, probability calibration, external or temporal validation and completion of downstream ML Engineering integration.
 
 ---
 
@@ -1207,3 +1328,5 @@ Final Integration & Validation
 Samuel Makobe
 
 Data Science Intern
+
+    
