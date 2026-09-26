@@ -1126,8 +1126,7 @@ HealthConnect-Clinic-Experience-Lab-Appointment-Analysis/
 │   ├── HealthConnect_Week6_DataScience_to_DataAnalytics_CrossTrack_Handoff.pdf
 │   ├── HealthConnect_Week7_Data_Science_to_Data_ Analytics_Cross-track_handoff.pdf
 │   ├── HealthConnect_Week7_Project_Summary.pdf
-│   ├── HealthConnect_Non_Technical_Model_Summary_Report.pdf
-│   └── HealthConnect_Week8_Data_Science_Showcase_Slide.pptx
+│   └── HealthConnect_Non_Technical_Model_Summary_Report.pdf
 │
 └── .gitignore
 ```
